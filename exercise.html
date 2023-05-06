@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Understanding Javascript's Capture</title>
+  </head>
+  <body class="bod">
+    <div class="one">
+      <div class="two">
+        <div class="three"></div>
+      </div>
+    </div>
+
+    <style>
+      html {
+        box-sizing: border-box;
+      }
+
+      *,
+      *:before,
+      *:after {
+        box-sizing: inherit;
+      }
+
+      div {
+        width: 100%;
+        padding: 100px;
+      }
+
+      .one {
+        background: thistle;
+      }
+
+      .two {
+        background: mistyrose;
+      }
+
+      .three {
+        background: coral;
+      }
+    </style>
+    <button></button>
+    <script>
+      const divs = document.querySelectorAll("div");
+      const button = document.querySelector("button");
+
+      function logText(e) {
+        console.log(this.classList.value); // bunu sayesinde console da tıkladığın kutuyu görebilirsin.
+      }
+
+      divs.forEach(
+        (div) => div.addEventListener("click", logText, { capture: false }) // capture true olursa sadece tıkladığın kutuyu görebilirsin. false olursa default hali bubbling e izin veriyor ve en baştaki parent element dan (body kutu 1, 2 ve tıkladığın kutu olan 3 ü görürsün.).
+      );
+
+      button.addEventListener(
+        "click",
+        () => {
+          console.log("1 kere tıklanabilir.");
+        },
+        { once: true } // bunun sayesinde kutuya sadece 1 kere tıklamana izin veriyor diğer tıklamaların çalışmaz.
+      );
+    </script>
+  </body>
+</html>
